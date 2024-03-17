@@ -79,11 +79,11 @@ jobs:
           echo "version=$VERSION" >> $GITHUB_ENV
       - uses: actions/download-artifact@v4
         with:
-          name: libcpgo-arm64.dylib
+          name: libgoast-arm64.dylib
           path: .
       - uses: actions/download-artifact@v4
         with:
-          name: libcpgo-amd64.dylib
+          name: libgoast-amd64.dylib
           path: .
       - name: Create Release
         id: create_release
