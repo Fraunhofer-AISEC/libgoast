@@ -29,19 +29,17 @@ jobs:
         run: |
           ./build.sh
       - name: Archive libgoast library (amd64)
-        if: ${{ always() }}
         uses: actions/upload-artifact@v4
         with:
           name: libgoast-amd64.dylib
           path: libgoast-amd64.dylib
       - name: Archive libgoast library (arm64)
-        if: ${{ always() }}
         uses: actions/upload-artifact@v4
         with:
           name: libgoast-arm64.dylib
           path: libgoast-arm64.dylib
   build-linux:
-    runs-on: linux
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - name: Setup Go
@@ -53,13 +51,13 @@ jobs:
         run: |
           ./build.sh
       - name: Archive libgoast library (amd64)
-        if: ${{ always() }}
         uses: actions/upload-artifact@v4
         with:
           name: libgoast-amd64.so
           path: libgoast-amd64.so
   publish:
-    runs-on: linux
+    runs-on: ubuntu-latest
+    if: startsWith(github.ref, 'refs/tags/v') && !contains(github.ref, 'beta') && !contains(github.ref, 'alpha')
     steps:
       - name: Determine Version
         run: |
@@ -85,7 +83,6 @@ jobs:
           name: libcpgo-amd64.dylib
           path: .
       - name: Create Release
-        if: startsWith(github.ref, 'refs/tags/v') && !contains(github.ref, 'beta') && !contains(github.ref, 'alpha')
         id: create_release
         uses: softprops/action-gh-release@v2
         with:
