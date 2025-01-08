@@ -15,7 +15,10 @@ if [ $OS == "darwin" ]
 then
     CGO_ENABLED=1 GOARCH=arm64 go build -buildmode=c-shared -o libgoast-arm64.${EXTENSION} lib.go
     CGO_ENABLED=1 GOARCH=amd64 go build -buildmode=c-shared -o libgoast-amd64.${EXTENSION} lib.go
-else
+fi
+
+if [ $OS == "linux" ]
+then
     if [ $ARCH == "aarch64" ]
     then
         CGO_ENABLED=1 GOARCH=arm64 go build -buildmode=c-shared -o libgoast-arm64.${EXTENSION} lib.go
