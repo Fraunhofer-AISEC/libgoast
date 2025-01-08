@@ -101,3 +101,4 @@ jobs:
             libgoast-arm64.dylib
             libgoast-amd64.dylib
             libgoast-amd64.so
+            libgoast-arm64.so
