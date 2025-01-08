@@ -56,7 +56,7 @@ jobs:
           name: libgoast-amd64.so
           path: libgoast-amd64.so
   build-linux-arm64:
-    runs-on: self-hosted, linux, arm64
+    runs-on: [self-hosted, linux, ARM64]
     steps:
       - uses: actions/checkout@v4
       - name: Setup Go
