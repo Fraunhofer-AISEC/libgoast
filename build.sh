@@ -9,6 +9,8 @@ else
     EXTENSION="so"
 fi
 
+echo "Building on $OS for $ARCH"
+
 if [ $OS == "darwin" ]
 then
     CGO_ENABLED=1 GOARCH=arm64 go build -buildmode=c-shared -o libgoast-arm64.${EXTENSION} lib.go
