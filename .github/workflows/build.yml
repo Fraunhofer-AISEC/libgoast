@@ -25,17 +25,17 @@ jobs:
             runs-on: ubuntu-latest
             ext: so
           - arch: arm64
-            os: macos
-            runs-on: macos-latest
-            ext: so
-          - arch: amd64
-            os: macos
-            runs-on: macos-latest
-            ext: dylib
-          - arch: amd64
             os: linux
             runs-on: [self-hosted, Linux, ARM64]
+            ext: so
+          - arch: arm64
+            os: macos
+            runs-on: macos-latest
             ext: dylib
+          - arch: amd64
+            os: macos
+            runs-on: macos-latest
+            ext: dylib          
     runs-on: ${{ matrix.target.runs-on }}
     steps:
       - uses: actions/checkout@v4
