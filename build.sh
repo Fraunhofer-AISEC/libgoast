@@ -9,6 +9,11 @@ else
     EXTENSION="so"
 fi
 
+if [ $OS == "windows" ]
+then
+    EXTENSION="dll"
+fi
+
 echo "Building on $OS for $ARCH"
 
 if [ $OS == "darwin" ]
@@ -28,4 +33,9 @@ then
     then
         CGO_ENABLED=1 GOARCH=amd64 go build -buildmode=c-shared -o libgoast-amd64.${EXTENSION} lib.go
     fi
+fi
+
+if [ $OS == "windows" ]
+then
+    CGO_ENABLED=1 GOARCH=amd64 go build -buildmode=c-shared -o libgoast-amd64.${EXTENSION} lib.go
 fi
