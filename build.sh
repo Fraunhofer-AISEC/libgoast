@@ -9,7 +9,7 @@ else
     EXTENSION="so"
 fi
 
-if [ $OS == "windows" ]
+if [[ $OS == mingw64* ]]
 then
     EXTENSION="dll"
 fi
@@ -34,8 +34,6 @@ then
         CGO_ENABLED=1 GOARCH=amd64 go build -buildmode=c-shared -o libgoast-amd64.${EXTENSION} lib.go
     fi
 fi
-
-// if check OS begins with mingw64
 
 if [[ $OS == mingw64* ]]
 then
