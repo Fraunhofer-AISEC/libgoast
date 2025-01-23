@@ -94,6 +94,10 @@ jobs:
         with:
           name: libgoast-arm64.so
           path: .
+      - uses: actions/download-artifact@v4
+        with:
+          name: libgoast-amd64.dll
+          path: .
       - name: Create Release
         id: create_release
         uses: softprops/action-gh-release@v2
@@ -107,3 +111,4 @@ jobs:
             libgoast-amd64.dylib
             libgoast-amd64.so
             libgoast-arm64.so
+            libgoast-amd64.dll
