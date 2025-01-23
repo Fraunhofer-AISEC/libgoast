@@ -40,3 +40,5 @@ then
     CGO_ENABLED=1 GOARCH=amd64 go build -buildmode=c-shared -o libgoast-amd64.${EXTENSION} lib.go
     ls -l
 fi
+
+ls-l
