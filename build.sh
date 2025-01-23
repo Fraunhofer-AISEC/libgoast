@@ -41,4 +41,5 @@ then
     ls -l
 else
     echo "Unsupported OS"
+    echo "Current OS: $OS"
 fi
