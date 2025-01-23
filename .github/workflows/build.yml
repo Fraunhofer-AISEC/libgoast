@@ -35,7 +35,11 @@ jobs:
           - arch: amd64
             os: macos
             runs-on: macos-latest
-            ext: dylib          
+            ext: dylib
+          - arch: amd64
+            os: windows
+            runs-on: windows-latest
+            ext: dll          
     runs-on: ${{ matrix.target.runs-on }}
     steps:
       - uses: actions/checkout@v4
@@ -45,6 +49,7 @@ jobs:
           go-version-file: go.mod
           cache-dependency-path: go.sum
       - name: Build
+        shell: bash
         run: |
           ./build.sh
       - name: Archive libgoast library (${{ matrix.target.arch }})

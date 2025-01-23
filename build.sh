@@ -9,6 +9,11 @@ else
     EXTENSION="so"
 fi
 
+if [[ $OS == mingw64* ]]
+then
+    EXTENSION="dll"
+fi
+
 echo "Building on $OS for $ARCH"
 
 if [ $OS == "darwin" ]
@@ -28,4 +33,13 @@ then
     then
         CGO_ENABLED=1 GOARCH=amd64 go build -buildmode=c-shared -o libgoast-amd64.${EXTENSION} lib.go
     fi
+fi
+
+if [[ $OS == mingw64* ]]
+then
+    CGO_ENABLED=1 GOARCH=amd64 go build -buildmode=c-shared -o libgoast-amd64.${EXTENSION} lib.go
+    ls -l
+else
+    echo "Unsupported OS"
+    echo "Current OS: $OS"
 fi
