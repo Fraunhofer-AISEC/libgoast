@@ -1,6 +1,6 @@
 module cpg
 
-go 1.20
+go 1.26
 
 require (
 	github.com/mattn/go-pointer v0.0.1
