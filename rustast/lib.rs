@@ -2,29 +2,28 @@ uniffi::setup_scaffolding!();
 
 use crate::RSAst::RustProblem;
 use itertools::Itertools;
-use ra_ap_parser::{SyntaxKind, T};
+use ra_ap_parser::{SyntaxKind};
 use ra_ap_syntax::ast::HasModuleItem;
 use ra_ap_syntax::ast::{
-    Abi, Adt, ArgList, ArrayExpr, ArrayType, AsmClobberAbi, AsmConst, AsmExpr, AsmLabel,
+    Abi, Adt, ArrayExpr, ArrayType, AsmClobberAbi, AsmConst, AsmExpr, AsmLabel,
     AsmOperand, AsmOperandNamed, AsmOptions, AsmPiece, AsmRegOperand, AsmSym, AssocItem,
     AssocTypeArg, AwaitExpr, BecomeExpr, BinExpr, BlockExpr, BoxPat, BreakExpr, CallExpr, CastExpr,
     ClosureExpr, Const, ConstArg, ConstBlockPat, ConstParam, ContinueExpr, DocCommentIter,
     DynTraitType, Enum, Expr, ExprStmt, ExternBlock, ExternCrate, ExternItem, FieldExpr, FieldList,
     Fn, FnPtrType, ForExpr, ForType, FormatArgsExpr, GenericArg, GenericParam, HasArgList,
     HasGenericArgs, HasGenericParams, HasLoopBody, HasName, HasTypeBounds, IdentPat, IfExpr, Impl,
-    ImplTraitType, IndexExpr, InferType, Item, LetElse, LetExpr, LetStmt, Lifetime, LifetimeArg,
+    ImplTraitType, IndexExpr, InferType, Item, LetExpr, LetStmt, Lifetime, LifetimeArg,
     LifetimeParam, Literal, LiteralPat, LoopExpr, MacroCall, MacroDef, MacroExpr, MacroPat,
     MacroRules, MacroType, MatchArm, MatchExpr, MethodCallExpr, Module, NameRef, NeverType,
     OffsetOfExpr, OrPat, Param, ParamList, ParenExpr, ParenPat, ParenType, Pat, Path, PathExpr,
     PathPat, PathSegment, PathType, PrefixExpr, PtrType, RangeExpr, RangePat, RecordExpr,
     RecordExprField, RecordField, RecordFieldList, RecordPat, RecordPatField, RefExpr, RefPat,
-    RefType, RestPat, RetType, ReturnExpr, ReturnTypeSyntax, SelfParam, SlicePat, SliceType,
-    Static, Stmt, Struct, TokenTree, Trait, TryExpr, TupleExpr, TupleField, TupleFieldList,
-    TuplePat, TupleStructPat, TupleType, Type, TypeAlias, TypeAnchor, TypeArg, TypeBound,
-    TypeBoundList, TypeParam, UnderscoreExpr, Union, Use, UseBoundGenericArg, UseTree, Variant,
+    RefType, RestPat, ReturnExpr, ReturnTypeSyntax, SelfParam, SlicePat, SliceType,
+    Static, Stmt, Struct, Trait, TryExpr, TupleExpr, TupleField, TupleFieldList,
+    TuplePat, TupleStructPat, TupleType, Type, TypeAlias, TypeAnchor, TypeArg, TypeBound, TypeParam, UnderscoreExpr, Union, Use, UseBoundGenericArg, UseTree, Variant,
     VariantDef, WhileExpr, WildcardPat, YeetExpr, YieldExpr,
 };
-use ra_ap_syntax::{ast, SourceFile, SyntaxNode, SyntaxToken};
+use ra_ap_syntax::{SourceFile, SyntaxNode};
 use ra_ap_syntax::{AstNode, Edition};
 use std::fs;
 
@@ -44,7 +43,7 @@ fn parse_rust_code(source: &str) -> Option<RSSourceFile> {
         Ok(source_code) => Some(handle_source_file(
             SourceFile::parse(source_code.as_str(), Edition::CURRENT).tree(),
         )),
-        Err(e) => None,
+        Err(_e) => None,
     }
 }
 
@@ -1116,13 +1115,13 @@ pub struct RSLiteral {
 impl From<Literal> for RSLiteral {
     fn from(node: Literal) -> Self {
         let mut kind = RSLiteralType::UnknownL;
-        for literalKind in node
+        for literal_kind in node
             .syntax()
-            .children()
+            .children_with_tokens()
             .map(|n| n.kind())
             .filter(|k| k.is_literal())
         {
-            kind = match literalKind {
+            kind = match literal_kind {
                 SyntaxKind::BYTE => RSLiteralType::ByteL,
                 SyntaxKind::BYTE_STRING => RSLiteralType::ByteStringL,
                 SyntaxKind::CHAR => RSLiteralType::CharL,
@@ -1675,13 +1674,13 @@ impl From<BoxPat> for RSBoxPat {
 #[derive(uniffi::Record, Debug, Clone, PartialEq, Eq, Hash)]
 pub struct RSConstBlockPat {
     pub(crate) ast_node: RSNode,
-    blockExpr: Option<RSBlockExpr>,
+    block_expr: Option<RSBlockExpr>,
 }
 impl From<ConstBlockPat> for RSConstBlockPat {
     fn from(node: ConstBlockPat) -> Self {
         RSConstBlockPat {
             ast_node: node.syntax().into(),
-            blockExpr: node.block_expr().map(Into::into),
+            block_expr: node.block_expr().map(Into::into),
         }
     }
 }
